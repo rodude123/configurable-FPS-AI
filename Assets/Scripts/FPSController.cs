@@ -8,8 +8,11 @@ public class FPSController : MonoBehaviour
     public float speed = 12f;
     public float gravity = -9.81f;
     public Transform groundCheck;
+    public Camera cam;
     public float jumpHeight = 2f;
     public float mouseSensitivity = 100f;
+    public float health = 100f;
+    public float range = 100f;
     
     private CharacterController controller;
     private Vector3 velocity;
@@ -25,9 +28,13 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
-        
+        if (health <= 0)
+        {
+            Debug.Log("You're dead");
+            Destroy(gameObject);
+        }
+
         // mouse look
-        
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         xRot -= mouseY;
@@ -36,14 +43,12 @@ public class FPSController : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
         
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, LayerMask.GetMask("ground"));
-        Debug.Log(isGrounded);
-
+        
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
-            Debug.Log("grounded");
         }
-        
+        // movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
@@ -56,6 +61,19 @@ public class FPSController : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
-        
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, transform.forward, out hit, range))
+        {
+            Debug.Log("hit");
+        }
     }
 }
