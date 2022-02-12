@@ -6,6 +6,7 @@ namespace Player
 {
     public abstract class FPSPlayer: MonoBehaviour
     {
+        public float health = 100f;
         public enum WeaponType
         {
             Pistol,

@@ -1,8 +1,9 @@
 using System;
+using Player;
 using UnityEngine;
 
 // movement script requires CharacterController component
-namespace Player
+namespace Testing_Assets.Scripts
 {
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : FPSPlayer
@@ -13,7 +14,6 @@ namespace Player
         public Camera cam;
         public float jumpHeight = 2f;
         public float mouseSensitivity = 100f;
-        public float health = 100f;
         public float range = 100f;
     
         private CharacterController controller;

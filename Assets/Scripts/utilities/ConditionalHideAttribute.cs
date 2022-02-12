@@ -14,6 +14,7 @@ namespace utilities
         public bool HideInInspector = false;
         public bool Inverse = false;
         public bool UseOrLogic = false;
+        public int EnemValueIndex = 0;
 
         public bool InverseCondition1 = false;
         public bool InverseCondition2 = false;
@@ -27,11 +28,27 @@ namespace utilities
             this.Inverse = false;
         }
 
+        public ConditionalHideAttribute(string conditionalSourceField, int enumValueIndex)
+        {
+            this.ConditionalSourceField = conditionalSourceField;
+            this.HideInInspector = false;
+            this.Inverse = false;
+            this.EnemValueIndex = enumValueIndex;
+        }
+
         public ConditionalHideAttribute(string conditionalSourceField, bool hideInInspector)
         {
             this.ConditionalSourceField = conditionalSourceField;
             this.HideInInspector = hideInInspector;
             this.Inverse = false;
+        }
+        
+        public ConditionalHideAttribute(string conditionalSourceField, bool hideInInspector, int enumValueIndex)
+        {
+            this.ConditionalSourceField = conditionalSourceField;
+            this.HideInInspector = hideInInspector;
+            this.Inverse = false;
+            this.EnemValueIndex = enumValueIndex;
         }
 
         public ConditionalHideAttribute(string conditionalSourceField, bool hideInInspector, bool inverse)
@@ -41,6 +58,14 @@ namespace utilities
             this.Inverse = inverse;
         }
 
+        public ConditionalHideAttribute(string conditionalSourceField, bool hideInInspector, bool inverse, int enumValueIndex)
+        {
+            this.ConditionalSourceField = conditionalSourceField;
+            this.HideInInspector = hideInInspector;
+            this.Inverse = inverse;
+            this.EnemValueIndex = enumValueIndex;
+        }
+
         public ConditionalHideAttribute(bool hideInInspector = false)
         {
             this.ConditionalSourceField = "";
@@ -48,7 +73,7 @@ namespace utilities
             this.Inverse = false;
         }
 
-        public ConditionalHideAttribute(string[] conditionalSourceFields,bool[] conditionalSourceFieldInverseBools, bool hideInInspector, bool inverse)
+        public ConditionalHideAttribute(bool[] conditionalSourceFieldInverseBools, bool hideInInspector, bool inverse, params string[] conditionalSourceFields)
         {
             this.ConditionalSourceFields = conditionalSourceFields;
             this.ConditionalSourceFieldInverseBools = conditionalSourceFieldInverseBools;
@@ -56,13 +81,20 @@ namespace utilities
             this.Inverse = inverse;
         }
 
-        public ConditionalHideAttribute(string[] conditionalSourceFields, bool hideInInspector, bool inverse)
+        public ConditionalHideAttribute(bool hideInInspector, bool inverse, params string[] conditionalSourceFields)
         {
             this.ConditionalSourceFields = conditionalSourceFields;        
             this.HideInInspector = hideInInspector;
             this.Inverse = inverse;
         }
 
+        public ConditionalHideAttribute(bool hideInInspector, bool inverse, int enumValueIndex, params string[] conditionalSourceFields)
+        {
+            this.ConditionalSourceFields = conditionalSourceFields;        
+            this.HideInInspector = hideInInspector;
+            this.Inverse = inverse;
+            this.EnemValueIndex = enumValueIndex;
+        } 
     }
 }
 

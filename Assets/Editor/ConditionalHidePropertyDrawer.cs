@@ -84,7 +84,7 @@ namespace Editor
 
             if (sourcePropertyValue != null)
             {
-                enabled = CheckPropertyType(sourcePropertyValue);
+                enabled = CheckPropertyType(sourcePropertyValue, condHAtt);
                 if (condHAtt.InverseCondition1) enabled = !enabled;             
             }
             else
@@ -117,7 +117,7 @@ namespace Editor
             //Combine the results
             if (sourcePropertyValue2 != null)
             {
-                bool prop2Enabled = CheckPropertyType(sourcePropertyValue2);
+                bool prop2Enabled = CheckPropertyType(sourcePropertyValue2, condHAtt);
                 if (condHAtt.InverseCondition2) prop2Enabled = !prop2Enabled;
 
                 if (condHAtt.UseOrLogic)
@@ -158,7 +158,7 @@ namespace Editor
                 //Combine the results
                 if (sourcePropertyValueFromArray != null)
                 {
-                    bool propertyEnabled = CheckPropertyType(sourcePropertyValueFromArray);                
+                    bool propertyEnabled = CheckPropertyType(sourcePropertyValueFromArray, condHAtt);                
                     if (conditionalSourceFieldInverseArray.Length>= (index+1) && conditionalSourceFieldInverseArray[index]) propertyEnabled = !propertyEnabled;
 
                     if (condHAtt.UseOrLogic)
@@ -179,7 +179,7 @@ namespace Editor
             return enabled;
         }
 
-        private bool CheckPropertyType(SerializedProperty sourcePropertyValue)
+        private bool CheckPropertyType(SerializedProperty sourcePropertyValue, ConditionalHideAttribute condHAtt)
         {
             //Note: add others for custom handling if desired
             switch (sourcePropertyValue.propertyType)
@@ -187,7 +187,9 @@ namespace Editor
                 case SerializedPropertyType.Boolean:
                     return sourcePropertyValue.boolValue;                
                 case SerializedPropertyType.ObjectReference:
-                    return sourcePropertyValue.objectReferenceValue != null;                
+                    return sourcePropertyValue.objectReferenceValue != null;    
+                case SerializedPropertyType.Enum:
+                    return sourcePropertyValue.enumValueIndex != condHAtt.EnemValueIndex;
                 default:
                     Debug.LogError("Data type of the property used for conditional hiding [" + sourcePropertyValue.propertyType + "] is currently not supported");
                     return true;

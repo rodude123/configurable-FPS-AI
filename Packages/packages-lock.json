@@ -1,5 +1,16 @@
 {
   "dependencies": {
+    "com.domybest.mybox": {
+      "version": "https://github.com/Deadcows/MyBox.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.ai": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0"
+      },
+      "hash": "6cdef11c75af16be9f94a2b0fa09106d4bacf5e2"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -22,7 +33,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.analytics": {
-      "version": "3.6.11",
+      "version": "3.6.12",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -31,7 +42,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.6.0",
+      "version": "1.6.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -40,7 +51,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "1.13.5",
+      "version": "1.15.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -57,7 +68,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.7",
+      "version": "3.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -82,7 +93,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.2.4",
+      "version": "1.2.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -107,7 +118,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.purchasing": {
-      "version": "4.0.3",
+      "version": "4.1.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -121,7 +132,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "12.1.0",
+      "version": "12.1.4",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
@@ -131,18 +142,18 @@
       }
     },
     "com.unity.render-pipelines.universal": {
-      "version": "12.1.0",
+      "version": "12.1.4",
       "depth": 0,
       "source": "builtin",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
         "com.unity.burst": "1.5.0",
-        "com.unity.render-pipelines.core": "12.1.0",
-        "com.unity.shadergraph": "12.1.0"
+        "com.unity.render-pipelines.core": "12.1.4",
+        "com.unity.shadergraph": "12.1.4"
       }
     },
     "com.unity.searcher": {
-      "version": "4.9.0",
+      "version": "4.9.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
@@ -165,12 +176,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "12.1.0",
+      "version": "12.1.4",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
-        "com.unity.render-pipelines.core": "12.1.0",
-        "com.unity.searcher": "4.8.0"
+        "com.unity.render-pipelines.core": "12.1.4",
+        "com.unity.searcher": "4.9.1"
       }
     },
     "com.unity.sysroot": {
