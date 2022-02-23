@@ -1,4 +1,5 @@
 using System;
+using Enemy.Configurators;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,10 +9,10 @@ namespace Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(BoxCollider))]
+    [AddComponentMenu("FPS AI System/Enemy AI")]
     public class Enemy : MonoBehaviour
     {
-        [Header("Configuration")]
-        public bool zombie;
+        [Header("Configuration")] public AIConfiguration aiConfig;
         
         private FPSPlayer player;
         private NavMeshAgent agent;
@@ -24,7 +25,7 @@ namespace Enemy
 
         void Update()
         {
-            if (zombie)
+            if (aiConfig.zombie)
             {
                 agent.SetDestination(player.transform.position);
             }

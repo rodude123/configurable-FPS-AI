@@ -16,7 +16,8 @@ namespace Enemy
         Continuous,
         RoundBased
     }
-    
+
+    [AddComponentMenu("FPS AI System/Enemy Manager")]
     public class EnemyManager : MonoBehaviour
     {
         [Header("Enemy options")]
@@ -32,15 +33,19 @@ namespace Enemy
         [ConditionalHide(true, false, "spawnMode", "spawnSystem")]
         [Min(0)]
         public int numberOfRounds;
-        [ConditionalHide(true, false, "spawnSystem", "spawnMode")]
+
+        [ConditionalHide(true, false, "spawnMode", "spawnSystem")]
         [Min(1)]
         public int enemiesPerRound = 1;
-        [ConditionalHide(true, false, "spawnSystem", "spawnMode")]
+
+        [ConditionalHide(true, false, "spawnMode", "spawnSystem")]
         public bool useTime;
-        [ConditionalHide(true, false, "useTime", "spawnMode")]    
+
+        [ConditionalHide(true, false, "spawnMode", "useTime")]    
         [Min(1)]
-        public float timeBetweenSpawnsSeconds = 1.0f;
-        [ConditionalHide(true, false, "spawnSystem", "spawnMode")]
+        public float timeBetweenSpawnsSeconds = 10.0f;
+
+        [ConditionalHide(true, false, "spawnMode", "spawnSystem")]
         public bool enableGUI;
         private List<GameObject> enemiesSpawned = new List<GameObject>();
 

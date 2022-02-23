@@ -40,7 +40,7 @@ namespace Testing_Assets.Scripts
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
             xRot -= mouseY;
-            xRot = Math.Clamp(xRot, -90f, 90f); // making sure we can only go up to 90 degrees
+            xRot = Mathf.Clamp(xRot, -90f, 90f); // making sure we can only go up to 90 degrees
             transform.GetChild(0).localRotation = Quaternion.Euler(xRot, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         
