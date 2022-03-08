@@ -30,12 +30,6 @@ namespace Testing_Assets.Scripts
 
         void Update()
         {
-            if (health <= 0)
-            {
-                Debug.Log("You're dead");
-                Destroy(gameObject);
-            }
-
             // mouse look
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -66,22 +60,22 @@ namespace Testing_Assets.Scripts
 
             if (Input.GetButtonDown("Fire1"))
             {
-                shoot();
+                Shoot();
             }
         }
 
-        public override void takeDamage(int damage)
+        public override void TakeDamage(float damage)
         {
-            throw new NotImplementedException();
+            health -= damage;
+            if (health > 0) return;
+            health = 0;
         }
 
-        public override void shoot()
+        public override void Shoot()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(cam.transform.position, transform.forward, out hit, range))
-            {
-                Debug.Log("hit");
-            }
+            if (!Physics.Raycast(cam.transform.position, transform.forward, out var hit, range)) return;
+            if (!hit.transform.root.CompareTag($"Enemy")) return;
+            hit.transform.root.GetComponent<Enemy.Enemy>().TakeDamage(20);
         }
     }
 }

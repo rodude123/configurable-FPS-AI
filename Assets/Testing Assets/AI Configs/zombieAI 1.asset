@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1aad3e595e2a4aa82368f46693a24e, type: 3}
-  m_Name: zombieAI
+  m_Name: zombieAI 1
   m_EditorClassIdentifier: 
-  zombie: 1
-  walkParameterName: 
+  walkParameterName: walk
   canRun: 0
   runParameterName: 
-  attackParameterName: 
   canCrouch: 0
   crouchWalkParameterName: 
-  zombie: 1
+  attackParameterName: attack
+  attackRange: 2.5
+  damage: 10
+  attackDelay: 2
+  dieParameterName: die

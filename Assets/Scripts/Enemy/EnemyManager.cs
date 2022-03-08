@@ -96,19 +96,22 @@ namespace Enemy
         // Update is called once per frame
         void Update()
         {
-
+            
         }
 
         public void SpawnEnemy()
         {
-            
-        }
-        
-        private IEnumerator SpawnEnemies()
-        {
             enemiesSpawned.Add(Instantiate(enemiesToSpawn[UnityEngine.Random.Range(0, enemiesToSpawn.Count)],
                 spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity));
-            yield return new WaitForSeconds(1.0f);
+        }
+
+        private IEnumerator SpawnEnemies()
+        {
+            while (spawnSystem == SpawnSystem.Continuous)
+            {
+                for (var i = 0; i < 10; i++) SpawnEnemy();
+                yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
+            } 
         }
 
         private IEnumerator RoundBased()

@@ -14,8 +14,9 @@ namespace Player
             Shotgun,
             Sniper,
         }
-        public abstract void takeDamage(int damage);
 
-        public abstract void shoot();
+        public abstract void TakeDamage(float damage);
+
+        public abstract void Shoot();
     }
 }
