@@ -1,8 +1,9 @@
 using System;
+using Player;
 using UnityEngine;
 
 // movement script requires CharacterController component
-namespace Player
+namespace Testing_Assets.Scripts
 {
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : FPSPlayer
@@ -13,7 +14,6 @@ namespace Player
         public Camera cam;
         public float jumpHeight = 2f;
         public float mouseSensitivity = 100f;
-        public float health = 100f;
         public float range = 100f;
     
         private CharacterController controller;
@@ -30,17 +30,11 @@ namespace Player
 
         void Update()
         {
-            if (health <= 0)
-            {
-                Debug.Log("You're dead");
-                Destroy(gameObject);
-            }
-
             // mouse look
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
             xRot -= mouseY;
-            xRot = Math.Clamp(xRot, -90f, 90f); // making sure we can only go up to 90 degrees
+            xRot = Mathf.Clamp(xRot, -90f, 90f); // making sure we can only go up to 90 degrees
             transform.GetChild(0).localRotation = Quaternion.Euler(xRot, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         
@@ -66,22 +60,22 @@ namespace Player
 
             if (Input.GetButtonDown("Fire1"))
             {
-                shoot();
+                Shoot();
             }
         }
 
-        public override void takeDamage(int damage)
+        public override void TakeDamage(float damage)
         {
-            throw new NotImplementedException();
+            health -= damage;
+            if (health > 0) return;
+            health = 0;
         }
 
-        public override void shoot()
+        public override void Shoot()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(cam.transform.position, transform.forward, out hit, range))
-            {
-                Debug.Log("hit");
-            }
+            if (!Physics.Raycast(cam.transform.position, transform.forward, out var hit, range)) return;
+            if (!hit.transform.root.CompareTag($"Enemy")) return;
+            hit.transform.root.GetComponent<Enemy.Enemy>().TakeDamage(20);
         }
     }
 }

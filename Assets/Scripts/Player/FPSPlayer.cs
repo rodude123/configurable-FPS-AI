@@ -6,6 +6,7 @@ namespace Player
 {
     public abstract class FPSPlayer: MonoBehaviour
     {
+        public float health = 100f;
         public enum WeaponType
         {
             Pistol,
@@ -13,8 +14,9 @@ namespace Player
             Shotgun,
             Sniper,
         }
-        public abstract void takeDamage(int damage);
 
-        public abstract void shoot();
+        public abstract void TakeDamage(float damage);
+
+        public abstract void Shoot();
     }
 }
