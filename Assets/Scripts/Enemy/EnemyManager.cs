@@ -49,10 +49,10 @@ namespace Enemy
 
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableGUI")]
 		public Color32 textColour;
-		private GameObject counterGb;
-		private int currRound;
+		private GameObject _counterGb;
+		private int _currRound;
 
-		private readonly List<GameObject> enemiesSpawned = new List<GameObject>();
+		private readonly List<GameObject> _enemiesSpawned = new List<GameObject>();
 
 		public static EnemyManager Instance
 		{
@@ -110,13 +110,25 @@ namespace Enemy
 		{
 			if (enableGUI)
 			{
-				counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (currRound + 1);
+				_counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (_currRound + 1);
 			}
 		}
 
 		public void SpawnEnemy()
 		{
-			enemiesSpawned.Add(Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)],
+			if (_enemiesSpawned.Count > 5)
+			{
+				for (var i = 0; i < _enemiesSpawned.Count; i++)
+				{
+					if (_enemiesSpawned[i].activeInHierarchy == false)
+					{
+						_enemiesSpawned[i].SetActive(true);
+						break;
+					}
+				}
+			}
+
+			_enemiesSpawned.Add(Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)],
 				spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity));
 		}
 
@@ -124,7 +136,10 @@ namespace Enemy
 		{
 			while (spawnSystem == SpawnSystem.Continuous)
 			{
-				for (var i = 0; i < 10; i++) SpawnEnemy();
+				for (var i = 0; i < 10; i++)
+				{
+					SpawnEnemy();
+				}
 				yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
 			}
 		}
@@ -135,23 +150,34 @@ namespace Enemy
 			{
 				for (var i = 0; i < numberOfRounds; i++)
 				{
-					currRound = i;
-					for (var j = 0; j < enemiesPerRound; j++) SpawnEnemy();
+					_currRound = i;
+					for (var j = 0; j < enemiesPerRound; j++)
+					{
+						SpawnEnemy();
+					}
 
 					if (useTime)
 					{
 						yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
 					}
 				}
+				yield break;
 			}
-			else
+
+			if (numberOfRounds == 0)
 			{
 				while (true)
 				{
-					for (var i = 0; i < enemiesPerRound; i++) SpawnEnemy();
+					for (var i = 0; i < enemiesPerRound; i++)
+					{
+						SpawnEnemy();
+					}
 					yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
 				}
 			}
+
+			
+
 		}
 
 		private IEnumerator RoundCounterUI()
@@ -174,10 +200,10 @@ namespace Enemy
 			yield return new WaitForSecondsRealtime(1f);
 			Time.timeScale = 1;
 			Destroy(countInGb);
-			counterGb = new GameObject();
-			var counterTextMesh = CreateTextElement(counterGb,
+			_counterGb = new GameObject();
+			var counterTextMesh = CreateTextElement(_counterGb,
 				new Vector2(Screen.width * 0.125f, Screen.height * 0.875f), 32, "Round: 1");
-			counterGb.transform.SetParent(canvasUI.transform);
+			_counterGb.transform.SetParent(canvasUI.transform);
 		}
 
 		private TextMeshProUGUI CreateTextElement(GameObject gameObj, Vector2 pos, int fontSize, string textStr)

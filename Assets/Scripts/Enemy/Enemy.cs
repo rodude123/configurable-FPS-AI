@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Enemy.Configurators;
 using Player;
 using UnityEngine;
@@ -18,11 +20,14 @@ namespace Enemy
 		private Animator _anim;
 
 		private FPSPlayer _player;
+
+		private EnemyManager _enemyManager;
 		private double _previousAttackTime;
 
 		private void Start()
 		{
-			_player = EnemyManager.Instance.player;
+			_enemyManager = EnemyManager.Instance;
+			_player = _enemyManager.player;
 			_agent = GetComponent<NavMeshAgent>();
 			_anim = GetComponent<Animator>();
 		}
@@ -63,8 +68,23 @@ namespace Enemy
 			}
 			_anim.SetBool(zombieAiConfig.dieParameterName, true);
 			_agent.isStopped = true;
-			Destroy(gameObject, 15f);
+			StartCoroutine(nameof(Disable));
 			Debug.Log("Enemy died");
 		}
+
+		private IEnumerator Disable()
+		{
+			yield return new WaitForSeconds(15f);
+			gameObject.SetActive(false);
+		}
+
+		public void OnEnable()
+		{
+			gameObject.SetActive(true);
+			_agent.isStopped = false;
+			_agent.SetDestination(_player.transform.position);
+			transform.position = _enemyManager.spawnPoints[Random.Range(0, _enemyManager.spawnPoints.Count)].transform.position;
+		}
+
 	}
 }
