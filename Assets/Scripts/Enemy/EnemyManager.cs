@@ -103,7 +103,10 @@ namespace Enemy
         // Update is called once per frame
         void Update()
         {
-            if (enableGUI) counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (currRound + 1);
+            if (enableGUI)
+            {
+                counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (currRound + 1);
+            } 
         }
 
         public void SpawnEnemy()
@@ -130,9 +133,9 @@ namespace Enemy
                     currRound = i;
                     for (int j = 0; j < enemiesPerRound; j++)
                     {
-                        enemiesSpawned.Add(Instantiate(enemiesToSpawn[UnityEngine.Random.Range(0, enemiesToSpawn.Count)],
-                            spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity));
+                        SpawnEnemy();
                     }
+                    
                     if (useTime)
                     {
                         yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
@@ -145,8 +148,7 @@ namespace Enemy
                 {
                     for (int i = 0; i < enemiesPerRound; i++)
                     {
-                         enemiesSpawned.Add(Instantiate(enemiesToSpawn[UnityEngine.Random.Range(0, enemiesToSpawn.Count)],
-                             spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity));                       
+                        SpawnEnemy();
                     }
                     yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
                 } 
