@@ -1,22 +1,20 @@
-using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Player
 {
-    public abstract class FPSPlayer: MonoBehaviour
-    {
-        public float health = 100f;
-        public enum WeaponType
-        {
-            Pistol,
-            MachineGun,
-            Shotgun,
-            Sniper,
-        }
+	public abstract class FPSPlayer : MonoBehaviour
+	{
+		public enum WeaponType
+		{
+			Pistol,
+			MachineGun,
+			Shotgun,
+			Sniper
+		}
+		public float health = 100f;
 
-        public abstract void TakeDamage(float damage);
+		public abstract void TakeDamage(float damage);
 
-        public abstract void Shoot();
-    }
+		public abstract void Shoot();
+	}
 }
