@@ -1,0 +1,26 @@
+{
+  "name": "com.rodude123.configurable-fps-ai",
+  "version": "1.0.0",
+  "displayName": "FPS AI System",
+  "description": "This is a configurable FPS AI system designed to help create AI for FPS games",
+  "unity": "2020.3",
+  "documentationUrl": "https://github.com/rodude123/configurable-FPS-AI/wiki",
+  "changelogUrl": "https://github.com/rodude123/configurable-FPS-AI",
+  "licensesUrl": "https://github.com/rodude123/configurable-FPS-AI",
+  "keywords": [
+    "configurable",
+    "FPS",
+    "AI"
+  ],
+  "author": {
+    "name": "Rohit Pai",
+    "email": "rodude123@gmail.com",
+    "url": "https://github.com/rodude123/configurable-FPS-AI"
+  },
+  "type": "library",
+  "dependencies": {
+    "com.unity.ui": "1.0.0-preview.18",
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.modules.ai": "1.0.0"
+  }
+}

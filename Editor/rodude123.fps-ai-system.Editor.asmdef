@@ -1,0 +1,16 @@
+{
+    "name": "rodude123.fps-ai-system.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2d8f1ee7867156f27b411e611dc05b86"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
