@@ -18,7 +18,7 @@ MonoBehaviour:
   canCrouch: 0
   crouchWalkParameterName: 
   attackParameterName: attack
-  attackRange: 2.5
+  attackRange: 3.22
   damage: 10
   attackDelay: 2
   dieParameterName: die

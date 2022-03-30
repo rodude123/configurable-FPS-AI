@@ -42,12 +42,12 @@ namespace Enemy
 		[Min(1)]
 		public float timeBetweenSpawnsSeconds = 10.0f;
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
-		public bool enableGUI;
+		public bool enableUI;
 
-		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableGUI")]
+		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Canvas canvasUI;
 
-		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableGUI")]
+		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Color32 textColour;
 		private GameObject _counterGb;
 		private int _currRound;
@@ -83,7 +83,7 @@ namespace Enemy
 			if (spawnSystem == SpawnSystem.RoundBased)
 			{
 				StartCoroutine(nameof(RoundBased));
-				if (enableGUI)
+				if (enableUI)
 				{
 					StartCoroutine(nameof(RoundCounterUI));
 				}
@@ -108,7 +108,7 @@ namespace Enemy
 		// Update is called once per frame
 		private void Update()
 		{
-			if (enableGUI)
+			if (enableUI)
 			{
 				_counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (_currRound + 1);
 			}
