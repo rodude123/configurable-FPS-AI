@@ -8,17 +8,6 @@ namespace Enemy.Configurators
 	{
 		public string walkParameterName;
 
-		[Tooltip("Can the AI run?")]
-		public bool canRun;
-
-		[ConditionalHide("canRun", true)]
-		public string runParameterName;
-
-		[Tooltip("Can the AI crouch?")]
-		public bool canCrouch;
-
-		[ConditionalHide("canCrouch", true)]
-		public string crouchWalkParameterName;
 		public string attackParameterName;
 
 		[Range(0.1f, 20f)]
