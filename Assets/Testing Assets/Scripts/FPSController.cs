@@ -1,5 +1,5 @@
 using System;
-using Player;
+using Assets.Scripts.Player;
 using UnityEngine;
 
 // movement script requires CharacterController component
@@ -85,7 +85,7 @@ namespace Testing_Assets.Scripts
 			{
 				return;
 			}
-			hit.transform.root.GetComponent<Enemy.Enemy>().TakeDamage(20);
+			hit.transform.root.GetComponent<Assets.Scripts.Enemy.Enemy>().TakeDamage(20);
 		}
 	}
 }

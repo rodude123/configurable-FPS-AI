@@ -1,7 +1,6 @@
 using UnityEngine;
-using utilities;
 
-namespace Enemy.Configurators
+namespace Assets.Scripts.Enemy.Configurators
 {
 	[CreateAssetMenu(menuName = "FPS AI System/Zombie AI Configuration", fileName = "zombieAI.asset")]
 	public class ZombieAIConfiguration : ScriptableObject

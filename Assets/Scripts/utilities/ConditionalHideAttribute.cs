@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace utilities
+namespace Assets.Scripts.utilities
 {
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property |
 	                AttributeTargets.Class | AttributeTargets.Struct)]

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace Assets.Scripts.Player
 {
 	public abstract class FPSPlayer : MonoBehaviour
 	{
