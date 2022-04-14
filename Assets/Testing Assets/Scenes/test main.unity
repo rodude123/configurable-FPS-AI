@@ -189,12 +189,12 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 208374082}
   - {fileID: 1781663824}
-  spawnSystem: 1
+  spawnSystem: 0
   numberOfRounds: 5
   enemiesPerRound: 4
   useTime: 1
   timeBetweenSpawnsSeconds: 10
-  enableGUI: 1
+  enableUI: 0
   canvasUI: {fileID: 1495800467}
   textColour:
     serializedVersion: 2

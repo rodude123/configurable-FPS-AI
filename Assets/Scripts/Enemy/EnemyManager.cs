@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Player;
+using Assets.Scripts.Player;
+using Assets.Scripts.utilities;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using utilities;
 using Random = UnityEngine.Random;
 
-namespace Enemy
+namespace Assets.Scripts.Enemy
 {
 
 	[Serializable]
@@ -38,21 +39,30 @@ namespace Enemy
 		public int enemiesPerRound = 1;
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
 		public bool useTime;
-		[ConditionalHide(true, false, "spawnMode", "useTime")]
+		[ConditionalHide(true, false, "spawnMode", "useTime", "spawnSystem")]
 		[Min(1)]
-		public float timeBetweenSpawnsSeconds = 10.0f;
+		public float timeBetweenRoundsSeconds;
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
 		public bool enableUI;
-
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Canvas canvasUI;
-
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Color32 textColour;
-		private GameObject _counterGb;
-		private int _currRound;
 
-		private readonly List<GameObject> _enemiesSpawned = new List<GameObject>();
+		[DoNotSerialize]
+		public int EnemiesKilled
+		{
+			get;
+			set;
+		}
+
+		[DoNotSerialize]
+		public readonly Queue<GameObject> enemiesSpawned = new Queue<GameObject>();
+
+		private GameObject _counterGb;
+		private int _currRound = 1;
+		private int _currEnemiesSpawned = 0;
+		private float _currTime;
 
 		public static EnemyManager Instance
 		{
@@ -65,31 +75,20 @@ namespace Enemy
 			if (Instance == null)
 			{
 				Instance = this;
+				return;
 			}
-			else
-			{
-				Destroy(gameObject);
-			}
+			Destroy(gameObject);
 		}
 
 		// Start is called before the first frame update
+
 		private void Start()
 		{
 			if (!spawnMode)
 			{
 				return;
 			}
-
-			if (spawnSystem == SpawnSystem.RoundBased)
-			{
-				StartCoroutine(nameof(RoundBased));
-				if (enableUI)
-				{
-					StartCoroutine(nameof(RoundCounterUI));
-				}
-				return;
-			}
-
+			
 			if (enemiesToSpawn.Count == 0)
 			{
 				Debug.LogError("No enemies to spawn");
@@ -102,82 +101,80 @@ namespace Enemy
 				return;
 			}
 
-			StartCoroutine(nameof(SpawnEnemies));
+			for (var i = 0; i < 5; i++)
+			{
+				var enemy = Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)],
+					spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity);
+				enemy.SetActive(false);
+				enemiesSpawned.Enqueue(enemy);
+			}
+
+			if (spawnSystem == SpawnSystem.RoundBased && enableUI)
+			{
+				StartCoroutine(nameof(RoundCounterUI));
+			}
 		}
 
 		// Update is called once per frame
+
 		private void Update()
 		{
-			if (enableUI)
+			if (!spawnMode)
 			{
-				_counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + (_currRound + 1);
+				return;
 			}
-		}
 
-		public void SpawnEnemy()
-		{
-			if (_enemiesSpawned.Count > 5)
+			if (spawnSystem == SpawnSystem.RoundBased)
 			{
-				for (var i = 0; i < _enemiesSpawned.Count; i++)
+				if (_currRound >= numberOfRounds)
 				{
-					if (_enemiesSpawned[i].activeInHierarchy == false)
-					{
-						_enemiesSpawned[i].SetActive(true);
-						break;
-					}
+					return;
 				}
-			}
 
-			_enemiesSpawned.Add(Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)],
-				spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity));
-		}
-
-		private IEnumerator SpawnEnemies()
-		{
-			while (spawnSystem == SpawnSystem.Continuous)
-			{
-				for (var i = 0; i < 10; i++)
+				if (EnemiesKilled == enemiesPerRound)
 				{
-					SpawnEnemy();
-				}
-				yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
-			}
-		}
-
-		private IEnumerator RoundBased()
-		{
-			if (numberOfRounds > 0)
-			{
-				for (var i = 0; i < numberOfRounds; i++)
-				{
-					_currRound = i;
-					for (var j = 0; j < enemiesPerRound; j++)
-					{
-						SpawnEnemy();
-					}
-
 					if (useTime)
 					{
-						yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
-					}
-				}
-				yield break;
-			}
+						if (_currTime == 0)
+						{
+							_currTime = Time.time;
+							return;
+						}
 
-			if (numberOfRounds == 0)
-			{
-				while (true)
-				{
-					for (var i = 0; i < enemiesPerRound; i++)
+						if (Time.time - _currTime >= timeBetweenRoundsSeconds)
+						{
+							_currTime = 0;
+							_currRound++;
+							_currEnemiesSpawned = 0;
+							EnemiesKilled = 0;
+						}
+					}
+
+					if (enableUI)
 					{
-						SpawnEnemy();
+						_counterGb.GetComponent<TextMeshProUGUI>().text = "Round: " + _currRound;
 					}
-					yield return new WaitForSeconds(timeBetweenSpawnsSeconds);
+					return;
 				}
+
+				if (_currEnemiesSpawned < enemiesPerRound && enemiesSpawned.Count > 0)
+				{
+					_currEnemiesSpawned++;
+					SpawnEnemy();
+				}
+				return;
 			}
 
-			
+			if (enemiesSpawned.Count > 0)
+			{
+				SpawnEnemy();
+			}
+		}
 
+		private void SpawnEnemy()
+		{
+			var enemy = enemiesSpawned.Dequeue();
+			enemy.GetComponent<Enemy>().Enable();
 		}
 
 		private IEnumerator RoundCounterUI()
@@ -201,7 +198,7 @@ namespace Enemy
 			Time.timeScale = 1;
 			Destroy(countInGb);
 			_counterGb = new GameObject();
-			var counterTextMesh = CreateTextElement(_counterGb,
+			CreateTextElement(_counterGb,
 				new Vector2(Screen.width * 0.125f, Screen.height * 0.875f), 32, "Round: 1");
 			_counterGb.transform.SetParent(canvasUI.transform);
 		}

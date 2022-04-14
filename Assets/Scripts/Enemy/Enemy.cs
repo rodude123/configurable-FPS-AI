@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Enemy.Configurators;
-using Player;
+using Assets.Scripts.Enemy.Configurators;
+using Assets.Scripts.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Enemy
+namespace Assets.Scripts.Enemy
 {
 	[RequireComponent(typeof(NavMeshAgent))]
 	[RequireComponent(typeof(Animator))]
@@ -24,7 +23,7 @@ namespace Enemy
 		private EnemyManager _enemyManager;
 		private double _previousAttackTime;
 
-		private void Start()
+		private void Awake()
 		{
 			_enemyManager = EnemyManager.Instance;
 			_player = _enemyManager.player;
@@ -51,12 +50,9 @@ namespace Enemy
 					_previousAttackTime = Time.time;
 					_player.TakeDamage(zombieAiConfig.damage);
 				}
+				return;
 			}
-			else
-			{
-				// anim.SetBool(zombieAiConfig.walkParameterName, true);
-				_anim.SetBool(zombieAiConfig.attackParameterName, false);
-			}
+			_anim.SetBool(zombieAiConfig.attackParameterName, false);
 		}
 
 		public void TakeDamage(float damage)
@@ -69,16 +65,17 @@ namespace Enemy
 			_anim.SetBool(zombieAiConfig.dieParameterName, true);
 			_agent.isStopped = true;
 			StartCoroutine(nameof(Disable));
-			Debug.Log("Enemy died");
 		}
 
 		private IEnumerator Disable()
 		{
-			yield return new WaitForSeconds(15f);
+			yield return new WaitForSeconds(10f);
 			gameObject.SetActive(false);
+			_enemyManager.EnemiesKilled++;
+			_enemyManager.enemiesSpawned.Enqueue(gameObject);
 		}
 
-		public void OnEnable()
+		public void Enable()
 		{
 			gameObject.SetActive(true);
 			_agent.isStopped = false;
