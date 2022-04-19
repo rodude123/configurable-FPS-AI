@@ -1,4 +1,4 @@
-using Assets.Scripts.utilities;
+using utilities;
 using UnityEditor;
 using UnityEngine;
 
