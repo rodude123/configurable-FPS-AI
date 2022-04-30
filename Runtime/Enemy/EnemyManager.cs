@@ -44,6 +44,7 @@ namespace Enemy
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "increaseEnemiesPerRound")]
 		[Min(1)]
 		public int numberToIncreasePerRound = 1;
+		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
 		public bool useTime;
 		[ConditionalHide(true, false, "spawnMode", "useTime", "spawnSystem")]
 		[Min(1)]
