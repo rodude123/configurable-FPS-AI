@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Player;
-using Assets.Scripts.utilities;
+using Player;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using utilities;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -56,14 +55,14 @@ namespace Enemy
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Color32 textColour;
 
-		[DoNotSerialize]
+		[HideInInspector]
 		public int EnemiesKilled
 		{
 			get;
 			set;
 		}
 
-		[DoNotSerialize]
+		[HideInInspector]
 		public readonly Queue<GameObject> enemiesSpawned = new Queue<GameObject>();
 
 		private GameObject _counterGb;
