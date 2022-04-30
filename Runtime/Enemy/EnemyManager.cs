@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Player;
+using Assets.Scripts.Player;
+using Assets.Scripts.utilities;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using utilities;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -37,27 +38,32 @@ namespace Enemy
 		[Min(1)]
 		public int enemiesPerRound = 1;
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
+		[Min(1)]
+		public int enemiesMaintainedPerRound = 1;
+		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
+		public bool increaseEnemiesPerRound;
+		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "increaseEnemiesPerRound")]
+		[Min(1)]
+		public int numberToIncreasePerRound = 1;
 		public bool useTime;
 		[ConditionalHide(true, false, "spawnMode", "useTime", "spawnSystem")]
 		[Min(1)]
 		public float timeBetweenRoundsSeconds;
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem")]
 		public bool enableUI;
-
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Canvas canvasUI;
-
 		[ConditionalHide(true, false, "spawnMode", "spawnSystem", "enableUI")]
 		public Color32 textColour;
 
-		[HideInInspector]
+		[DoNotSerialize]
 		public int EnemiesKilled
 		{
 			get;
 			set;
 		}
 
-		[HideInInspector]
+		[DoNotSerialize]
 		public readonly Queue<GameObject> enemiesSpawned = new Queue<GameObject>();
 
 		private GameObject _counterGb;
@@ -102,7 +108,13 @@ namespace Enemy
 				return;
 			}
 
-			for (var i = 0; i < 5; i++)
+			if (enemiesMaintainedPerRound > enemiesPerRound)
+			{
+				Debug.LogError("Enemies maintained per round cannot be greater than enemies per round");
+				return;
+			}
+
+			for (var i = 0; i < enemiesMaintainedPerRound; i++)
 			{
 				var enemy = Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)],
 					spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position, Quaternion.identity);
@@ -145,11 +157,16 @@ namespace Enemy
 						if (Time.time - _currTime >= timeBetweenRoundsSeconds)
 						{
 							_currTime = 0;
-							_currRound++;
-							_currEnemiesSpawned = 0;
-							EnemiesKilled = 0;
 						}
 					}
+
+					_currRound++;
+					if (increaseEnemiesPerRound)
+					{
+						enemiesPerRound += numberToIncreasePerRound;
+					}
+					_currEnemiesSpawned = -1;
+					EnemiesKilled = -1;
 
 					if (enableUI)
 					{
