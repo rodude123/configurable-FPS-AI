@@ -11,7 +11,12 @@ namespace Player
 			Shotgun,
 			Sniper
 		}
-		public float health = 100f;
+
+        public float health
+        {
+            get;
+            set;
+        }
 
 		public abstract void TakeDamage(float damage);
 
