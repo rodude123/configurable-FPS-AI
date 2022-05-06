@@ -1,6 +1,6 @@
 {
   "name": "com.rodude123.configurable-fps-ai",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "displayName": "FPS AI System",
   "description": "This is a configurable FPS AI system designed to help create AI for FPS games",
   "unity": "2020.3",
